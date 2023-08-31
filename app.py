@@ -1,37 +1,55 @@
+import xml.etree.ElementTree as ET
 import tkinter as tk
 from tkinter import Tk
 from tkinter import filedialog
+from senales import senales
+from datos import datos
+from lista_senales import lista_senales
+from lista_datos import lista_datos
 
-def CargarArchivo():
+
+def Leer_Xml():
     root = Tk()
     root.withdraw()
     root.attributes("-topmost", True)
 
     archivo = filedialog.askopenfilename()
-    if archivo:
-        print("Archivo seleccionado:", archivo)
-        print("")
-        archivo_texto = open(archivo, "r+", encoding = "utf8")
-        array_chars = []
-        for line in archivo_texto.readlines():
-            
-            for char in line.replace(" ",";").split(";"):
-                array_chars.append(char) 
-        print(array_chars)
+    print("Archivo seleccionado:", archivo)
+    print("")
+    archivo_texto = open(archivo, "r+", encoding = "utf8")
+    archivo_texto.close()
+    tree = ET.parse(archivo)
+    raiz = tree.getroot()
 
-        global Data
-        Data = archivo_texto
-        #print(Data)
+    lista_senalestemp = lista_senales()
+    for senales_temporal in raiz.findall("senal"):
+        nombre_senal = senales_temporal.get("nombre")
+        tiempo_senal = senales_temporal.get("t")
+        amplitud_senal = senales_temporal.get("A")
         print("")
-        print("Carga Exitosa")
-        print("")
+        print(nombre_senal, tiempo_senal, amplitud_senal)
+
+        lista_datostemp = lista_datos()
+        lista_datosPatrones_temp = lista_datos()
+        for dato_senal in senales_temporal.findall("dato"):
+            tiempo_dato = dato_senal.get("t")
+            amplitud_dato = dato_senal.get("A")
+            frecuencia_dato = dato_senal.text
+
+            nuevo_dato = datos(int(tiempo_dato),int(amplitud_dato),frecuencia_dato)
+            lista_datostemp.insertar_dato(nuevo_dato)
+
+            if frecuencia_dato != "0":
+                nuevo_dato = datos(int(tiempo_dato),int(amplitud_dato),1)
+                lista_datosPatrones_temp.insertar_dato(nuevo_dato)
+            else:
+                nuevo_dato = datos(int(tiempo_dato),int(amplitud_dato),0)
+                lista_datosPatrones_temp.insertar_dato(nuevo_dato)
         
-    else:
-        print("")
-        print("No se seleccionó ningún archivo.")
-
-
+        lista_senalestemp.insertar_senal(senales(nombre_senal,tiempo_senal,amplitud_senal,lista_datostemp,lista_datosPatrones_temp))
     
+    lista_senalestemp.recorre_imprimirLista_senal()
+
 
 
 
@@ -52,28 +70,32 @@ def Menu():
         print("5. Generar Gráfica")
         print("6. Inicializar sistema")
         print("7. Salida")
-        opcion= input ("Por favor Ingrese una opción del menú: ")
+        print(">->->->->->->->-><-<-<-<-<-<-<-<-<")
+        print()
+        opcion= input ("Por favor Ingrese una opción del menú:  ")
     
         if opcion == "1":
-            CargarArchivo()
+            Leer_Xml()
         elif opcion == "2":
            pass
         elif opcion == "3":
             pass
         elif opcion == "4":
             print("")
-            print(" Leonel Antonio González García \n 201709088 \n Introducción a la Programación y Computación 2 sección D \n Cuarto Semestre \n Ingenieria en Ciencias y Sistemas")
-
+            print(" -->Leonel Antonio González García \n -->201709088 \n -->Introducción a la Programación y Computación 2 sección D \n -->Cuarto Semestre \n -->Ingenieria en Ciencias y Sistemas")
+            print("")
         elif opcion == "5":
             pass
         elif opcion == "6":
             pass
         elif opcion == "7":
+            print("")
             print("Saliendo del programa, vuevla pronto")
             break
         else:
             print("")
             print("Indique una opción válida...\n Seleccione una tecla para continuar...")
+            print("")
 
     
 Menu() 
