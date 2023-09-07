@@ -8,6 +8,7 @@ from lista_senales import lista_senales
 from lista_datos import lista_datos
 
 
+
 def Leer_Xml():
     root = Tk()
     root.withdraw()
@@ -47,8 +48,42 @@ def Leer_Xml():
                 lista_datosPatrones_temp.insertar_dato(nuevo_dato)
         
         lista_senalestemp.insertar_senal(senales(nombre_senal,tiempo_senal,amplitud_senal,lista_datostemp,lista_datosPatrones_temp))
-    
     lista_senalestemp.recorre_imprimirLista_senal()
+    global lista_senalestemp2
+    lista_senalestemp2 = lista_senalestemp
+
+
+def Inicializar():
+    pass
+
+def graficar():
+    while True:
+        print("********************************")
+        print("")
+        print("1. Gráfica de Señales")
+        print("2. Gráfica de Patrones")
+        print("3. Gráfica Reducida")
+        print("4. Regresar al menú principal")
+        print("")
+        opcion = input("Elija una opción:  ")
+        
+        if opcion == "1":
+            lista_senalestemp2.graficar_list_original()
+            print("Gráfica realizada con éxito")
+        
+        elif opcion == "2":
+            lista_senalestemp2.graficar_list_patrones()
+            print("Gráfica realizada con éxito")
+        
+        elif opcion == "3":
+            pass
+        
+        elif opcion == "4":
+            Menu()
+            break
+        
+        
+            
 
 
 
@@ -71,7 +106,7 @@ def Menu():
         print("6. Inicializar sistema")
         print("7. Salida")
         print(">->->->->->->->-><-<-<-<-<-<-<-<-<")
-        print()
+        print("")
         opcion= input ("Por favor Ingrese una opción del menú:  ")
     
         if opcion == "1":
@@ -85,9 +120,9 @@ def Menu():
             print(" -->Leonel Antonio González García \n -->201709088 \n -->Introducción a la Programación y Computación 2 sección D \n -->Cuarto Semestre \n -->Ingenieria en Ciencias y Sistemas")
             print("")
         elif opcion == "5":
-            pass
+            graficar()
         elif opcion == "6":
-            pass
+            Inicializar()
         elif opcion == "7":
             print("")
             print("Saliendo del programa, vuevla pronto")

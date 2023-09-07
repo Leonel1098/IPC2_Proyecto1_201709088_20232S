@@ -36,3 +36,22 @@ class lista_senales:
         print("*****************************************")
         print("")
         print("")
+
+
+    def graficar_list_original(self):
+
+        actual = self.primero
+        while actual != None:
+            
+            actual.senal.lista_datos.graficar_datos(actual.senal.nombre, str(actual.senal.tiempo),str(actual.senal.amplitud))
+            
+            actual = actual.siguiente
+
+    def graficar_list_patrones(self):
+
+        actual = self.primero
+        while actual != None:
+            
+            actual.senal.lista_patrones.graficar_datos(actual.senal.nombre, str(actual.senal.tiempo),str(actual.senal.amplitud))
+            
+            actual = actual.siguiente
